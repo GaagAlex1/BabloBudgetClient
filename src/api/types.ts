@@ -54,3 +54,8 @@ export interface CreateAccountEntryRequest {
     categoryId?: string;
 }
 
+export interface CreateCategoryRequest {
+    name: string;
+    type: number
+}
+
