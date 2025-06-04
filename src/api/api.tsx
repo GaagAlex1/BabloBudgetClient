@@ -1,5 +1,11 @@
 import axios, { AxiosError, type InternalAxiosRequestConfig, type AxiosResponse } from 'axios';
-import {type RefreshResponse, type AuthRequest, type LoginResponse} from './types.ts'
+import {
+    type RefreshResponse,
+    type AuthRequest,
+    type LoginResponse,
+    type AccountEntryDto,
+    type CreateAccountEntryRequest, type MoneyFlowDto, type CategoryDto, type CreateCategoryRequest
+} from './types.ts'
 
 const apiClient = axios.create({
     baseURL: 'http://localhost:8018',  // базовый URL вашего API
@@ -100,6 +106,90 @@ export const updateAccount = async (newBasisSum: number): Promise<void> => {
     await apiClient.put('/account/update', null, {
         params: { newBasisSum },
     });
+};
+
+export const createAccountEntry = async (
+    data: CreateAccountEntryRequest & { id?: string }
+): Promise<AccountEntryDto> => {
+    const response: AxiosResponse<AccountEntryDto> = await apiClient.post('/accountentry/create', data);
+    return response.data;
+};
+
+export const getAccountEntries = async (): Promise<AccountEntryDto[]> => {
+    const response: AxiosResponse<AccountEntryDto[]> = await apiClient.get('/accountentry/getall');
+    return response.data;
+};
+
+export const getAccountEntryById = async (id: string): Promise<AccountEntryDto> => {
+    const response: AxiosResponse<AccountEntryDto> = await apiClient.get('/accountentry/getbyid', {
+        params: { accountEntryId: id },
+    });
+    return response.data;
+};
+
+export const updateAccountEntry = async (
+    id: string,
+    data: CreateAccountEntryRequest
+): Promise<void> => {
+    await apiClient.put('/accountentry/update', data, { params: { accountEntryId: id } });
+};
+
+export const deleteAccountEntry = async (id: string): Promise<void> => {
+    await apiClient.delete('/accountentry/delete', { params: { accountEntryId: id } });
+};
+
+export const createMoneyFlow = async (
+    data: Omit<MoneyFlowDto, 'id' | 'accountId' | 'periodDays' | 'startingDateUtc'>
+): Promise<MoneyFlowDto> => {
+    const response: AxiosResponse<MoneyFlowDto> = await apiClient.post('/moneyflow/create', data);
+    return response.data;
+};
+
+export const getMoneyFlows = async (): Promise<MoneyFlowDto[]> => {
+    const response: AxiosResponse<MoneyFlowDto[]> = await apiClient.get('/moneyflow/getall');
+    return response.data;
+};
+
+export const getMoneyFlowById = async (id: string): Promise<MoneyFlowDto> => {
+    const response: AxiosResponse<MoneyFlowDto> = await apiClient.get('/moneyflow/getbyid', {
+        params: { moneyFlowId: id },
+    });
+    return response.data;
+};
+
+export const updateMoneyFlow = async (
+    id: string,
+    data: Omit<MoneyFlowDto, 'id' | 'accountId' | 'periodDays' | 'startingDateUtc'>
+): Promise<void> => {
+    await apiClient.put('/moneyflow/update', data, { params: { moneyFlowId: id } });
+};
+
+export const deleteMoneyFlow = async (id: string): Promise<void> => {
+    await apiClient.delete('/moneyflow/delete', { params: { moneyFlowId: id } });
+};
+
+export const createCategory = async (
+    data: CreateCategoryRequest
+): Promise<CategoryDto> => {
+    const response: AxiosResponse<CategoryDto> = await apiClient.post(
+        '/category/create',
+        data
+    );
+    return response.data;
+};
+
+export const getIncomeCategories = async (): Promise<CategoryDto[]> => {
+    const response: AxiosResponse<CategoryDto[]> = await apiClient.get(
+        '/category/getincome'
+    );
+    return response.data;
+};
+
+export const getExpenseCategories = async (): Promise<CategoryDto[]> => {
+    const response: AxiosResponse<CategoryDto[]> = await apiClient.get(
+        '/category/getexpense'
+    );
+    return response.data;
 };
 
 export default apiClient;
