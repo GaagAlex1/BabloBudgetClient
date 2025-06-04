@@ -543,7 +543,6 @@ const Dashboard: React.FC = () => {
                                     rowKey="id"
                                     loading={loadingEntries}
                                     pagination={{
-                                        pageSize: 5,
                                         showSizeChanger: true,
                                         pageSizeOptions: ['5', '10', '20'],
                                         showTotal: (total) => `Всего ${total} записей`,
@@ -569,7 +568,6 @@ const Dashboard: React.FC = () => {
                                 rowKey="id"
                                 loading={loadingFlows}
                                 pagination={{
-                                    pageSize: 5,
                                     showSizeChanger: true,
                                     pageSizeOptions: ['5', '10', '20'],
                                     showTotal: (total) => `Всего ${total} записей`,
