@@ -48,6 +48,8 @@ export const EntryTable: React.FC<EntryTableProps> = ({
         try {
             if (editingEntry) {
                 await updateAccountEntry(editingEntry.id, payload);
+                const newBasisSum = basisSum - editingEntry.sum + payload.sum;
+                await updateAccount(newBasisSum);
                 message.success('Запись обновлена');
             } else {
                 await createAccountEntry(payload);
