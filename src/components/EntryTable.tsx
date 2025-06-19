@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { Card, Table, Button, Popconfirm, Space, message } from 'antd';
 import type { ColumnsType } from 'antd/es/table';
 import type { AccountEntryDto, CreateAccountEntryRequest, CategoryDto } from '../api/types';
-import { getAccountEntryById, createAccountEntry, updateAccountEntry, deleteAccountEntry } from '../api/api';
+import { getAccountEntryById, createAccountEntry, updateAccountEntry, deleteAccountEntry, updateAccount } from '../api/api';
 import EntryModal from './modal/EntryModal';
 import moment from "moment";
 
 interface EntryTableProps {
+    basisSum: number,
+    setBasisSum: (newBasisSum: number) => void,
     entries: AccountEntryDto[];
     loading: boolean;
     expenses: CategoryDto[];
@@ -15,6 +17,8 @@ interface EntryTableProps {
 }
 
 export const EntryTable: React.FC<EntryTableProps> = ({
+                                                          basisSum,
+                                                          setBasisSum,
                                                           entries,
                                                           loading,
                                                           expenses,
@@ -47,6 +51,9 @@ export const EntryTable: React.FC<EntryTableProps> = ({
                 message.success('Запись обновлена');
             } else {
                 await createAccountEntry(payload);
+                const newBasisSum = basisSum + payload.sum;
+                await updateAccount(newBasisSum);
+                setBasisSum(newBasisSum);
                 message.success('Запись создана');
             }
             setModalVisible(false);
@@ -59,7 +66,11 @@ export const EntryTable: React.FC<EntryTableProps> = ({
 
     const handleDelete = async (id: string) => {
         try {
+            const entrySum = (await getAccountEntryById(id)).sum;
+            const newBasisSum = basisSum - entrySum;
             await deleteAccountEntry(id);
+            await updateAccount(newBasisSum);
+            setBasisSum(newBasisSum);
             message.success('Запись удалена');
             onReload();
         } catch (err) {

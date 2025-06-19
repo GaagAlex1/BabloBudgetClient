@@ -58,7 +58,6 @@ const EntryModal: React.FC<EntryModalProps> = ({
                     categoryId: vals.categoryId,
                 };
                 await onSave(payload);
-                form.resetFields();
             })
             .catch(() => {});
     };

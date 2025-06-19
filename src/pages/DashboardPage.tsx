@@ -184,6 +184,8 @@ const DashboardPage: React.FC = () => {
 
                     <div style={{ width: '50%', paddingLeft: 16, boxSizing: 'border-box' }}>
                         <EntryTable
+                            basisSum={basisSum ? basisSum : 0}
+                            setBasisSum={setBasisSum}
                             entries={entries}
                             loading={loadingEntries}
                             expenses={expenseCategories}
