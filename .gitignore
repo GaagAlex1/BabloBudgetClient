@@ -1,10 +1,14 @@
 /node_modules/
 
 /dist/
-.vite/
-
-.idea/
+/.vite/
 
 npm-debug.log*
 
 *.tsbuildinfo
+
+.idea/
+
+/package-lock.json
+
+*.log
