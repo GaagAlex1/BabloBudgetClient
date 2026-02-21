@@ -4,7 +4,11 @@ import {
     type AuthRequest,
     type LoginResponse,
     type AccountEntryDto,
-    type CreateAccountEntryRequest, type MoneyFlowDto, type CategoryDto, type CreateCategoryRequest
+    type CreateAccountEntryRequest, type MoneyFlowDto, type CategoryDto, type CreateCategoryRequest,
+    type PeriodSumResult,
+    type CategoryPercentageResult,
+    TimeGrouping,
+    FlowType
 } from './types.ts'
 
 const apiClient = axios.create({
@@ -188,6 +192,48 @@ export const getIncomeCategories = async (): Promise<CategoryDto[]> => {
 export const getExpenseCategories = async (): Promise<CategoryDto[]> => {
     const response: AxiosResponse<CategoryDto[]> = await apiClient.get(
         '/category/getexpense'
+    );
+    return response.data;
+};
+
+// Analytics API
+export const getSumsByPeriod = async (
+    periodType: TimeGrouping,
+    periodsCount: number,
+    flowType: FlowType,
+    categoryId?: string
+): Promise<PeriodSumResult[]> => {
+    const params: Record<string, string | number> = {
+        periodType,
+        periodsCount,
+        flowType,
+    };
+
+    if (categoryId) {
+        params.categoryId = categoryId;
+    }
+
+    const response: AxiosResponse<PeriodSumResult[]> = await apiClient.get(
+        '/analytics/GetSumsByPeriod',
+        { params }
+    );
+    return response.data;
+};
+
+export const getCategoryPercentages = async (
+    periodType: TimeGrouping,
+    periodsCount: number,
+    flowType: FlowType
+): Promise<CategoryPercentageResult[]> => {
+    const response: AxiosResponse<CategoryPercentageResult[]> = await apiClient.get(
+        '/analytics/GetCategoryPercentages',
+        {
+            params: {
+                periodType,
+                periodsCount,
+                flowType,
+            },
+        }
     );
     return response.data;
 };

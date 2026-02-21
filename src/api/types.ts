@@ -59,3 +59,25 @@ export interface CreateCategoryRequest {
     type: number
 }
 
+// Analytics enums (sent as numbers to backend)
+export enum TimeGrouping {
+    Day = 0,
+    Month = 1
+}
+
+export enum FlowType {
+    Expense = 0,
+    Income = 1
+}
+
+// Analytics response types
+export interface PeriodSumResult {
+    date: string;
+    total: number;
+}
+
+export interface CategoryPercentageResult {
+    categoryName: string;
+    percentage: number;
+}
+

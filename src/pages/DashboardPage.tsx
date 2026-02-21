@@ -5,6 +5,8 @@ import { AccountSection } from '../components/AccountSection';
 import { CategoryModal } from '../components/modal/CategoryModal';
 import { EntryTable } from '../components/EntryTable';
 import { FlowTable } from '../components/FlowTable';
+import { ExpenseIncomeChart } from '../components/charts/ExpenseIncomeChart';
+import { CategoryPieChart } from '../components/charts/CategoryPieChart';
 
 import {
     getBasisSum,
@@ -163,6 +165,14 @@ const DashboardPage: React.FC = () => {
                     <Button type="dashed" onClick={() => setCategoryModalVisible(true)}>
                         Добавить категорию
                     </Button>
+                </div>
+
+                {/* Analytics Charts Section */}
+                <div style={{ marginBottom: 24 }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                        <ExpenseIncomeChart />
+                        <CategoryPieChart />
+                    </div>
                 </div>
 
                 <div style={{ display: 'flex', height: 'calc(100% - 64px)' }}>
