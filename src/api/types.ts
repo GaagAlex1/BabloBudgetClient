@@ -60,15 +60,17 @@ export interface CreateCategoryRequest {
 }
 
 // Analytics enums (sent as numbers to backend)
-export enum TimeGrouping {
-    Day = 0,
-    Month = 1
-}
+export type TimeGrouping = 0 | 1;
+export const TimeGrouping = {
+  Day: 0 as TimeGrouping,
+  Month: 1 as TimeGrouping,
+};
 
-export enum FlowType {
-    Expense = 0,
-    Income = 1
-}
+export type FlowType = 0 | 1;
+export const FlowType = {
+  Expense: 0 as FlowType,
+  Income: 1 as FlowType,
+};
 
 // Analytics response types
 export interface PeriodSumResult {
