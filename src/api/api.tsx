@@ -12,7 +12,7 @@ import {
 } from './types.ts'
 
 const apiClient = axios.create({
-    baseURL: 'http://localhost:8018',  // базовый URL вашего API
+    baseURL: import.meta.env.VITE_BACKEND_URL,  // базовый URL вашего API
     headers: {
         'Content-Type': 'application/json',
     }
